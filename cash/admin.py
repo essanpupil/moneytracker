@@ -1,3 +1,5 @@
 from django.contrib import admin
 
-# Register your models here.
+from cash.models import Activity
+
+admin.site.register(Activity)
