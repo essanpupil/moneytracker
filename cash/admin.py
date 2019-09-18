@@ -9,4 +9,9 @@ class ActivityAdmin(admin.ModelAdmin):
 
 admin.site.register(Activity, ActivityAdmin)
 
-admin.site.register(Saving)
+
+class SavingAdmin(admin.ModelAdmin):
+    list_display = ["name", "balance"]
+
+
+admin.site.register(Saving, SavingAdmin)
