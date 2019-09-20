@@ -1,3 +1,8 @@
-from django.shortcuts import render
+from django.views.generic import ListView
 
-# Create your views here.
+from cash.models import Activity
+
+
+class MainView(ListView):
+    model = Activity
+    template_name = 'cash/index.html'
