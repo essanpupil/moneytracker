@@ -3,6 +3,19 @@
 <!-- Page Heading -->
 <h1 class="h3 mb-2 text-gray-800">Cash Management</h1>
 
+<!-- Add New Activity -->
+<div class="card shadow mb-4">
+    <div class="card-header">
+        <div class="m-0 font-weight-bold text-primary">New Activtity</div>
+    </div>
+    <div class="card-body">
+        <form method="post" action="/api/activity/">{% csrf_token %}
+            {{ form }}
+            <input type="submit" class="btn btn-primary btn-user btn-block" value="Save Cash Activity">
+        </form>
+    </div>
+</div>
+
 <!-- DataTales Example -->
 <div class="card shadow mb-4">
     <div class="card-header py-3">
@@ -27,25 +40,36 @@
                     <th>Is Monthly</th>
                 </tr>
                 </tfoot>
-                <tbody>
-                {% for activity in activity_list %}
-                <tr>
-                    <td>{{ activity.timestamp }}</td>
-                    <td>{{ activity.name }}</td>
-                    <td>{{ activity.value }}</td>
-                    <td>{{ activity.is_monthly }}</td>
-                </tr>
-                {% empty %}
-                <tr>
-                    <td> - </td>
-                    <td> - </td>
-                    <td> - </td>
-                    <td> - </td>
-                </tr>
-                {% endfor %}
-                </tbody>
+                <tbody></tbody>
             </table>
         </div>
     </div>
 </div>
+{% endblock %}
+{% block page_script %}
+<script>
+$.ajax({
+    url: '/api/activity/',
+    type: "get",
+    dataType: "json",
+    success: function(data, textStatus, jqXHR) {
+        drawTable(data);
+    }
+});
+
+function drawTable(data) {
+    for (var i = 0; i < data.length; i++) {
+        drawRow(data[i]);
+    }
+}
+
+function drawRow(rowData) {
+    var row = $("<tr />")
+    $("#dataTable").append(row);
+    row.append($("<td>" + rowData.timestamp + "</td>"));
+    row.append($("<td>" + rowData.name + "</td>"));
+    row.append($("<td>" + rowData.value + "</td>"));
+    row.append($("<td>" + rowData.is_monthly + "</td>"));
+}
+</script>
 {% endblock %}

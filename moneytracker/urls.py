@@ -15,8 +15,15 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from rest_framework import routers
+
+from cash.views import ActivityViewSet
+
+router = routers.DefaultRouter()
+router.register(r'activity', ActivityViewSet)
 
 urlpatterns = [
+    path('api/', include(router.urls)),
     path('admin/', admin.site.urls),
     path('cash/', include('cash.urls')),
 ]

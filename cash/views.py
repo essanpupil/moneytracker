@@ -1,7 +1,8 @@
-from django.urls import reverse_lazy
-from django.views.generic import ListView, CreateView
+from django.views.generic import ListView
+from rest_framework import viewsets
 
 from cash.models import Activity
+from cash.serializers import ActivitySerializer
 
 
 class MainView(ListView):
@@ -9,8 +10,6 @@ class MainView(ListView):
     template_name = 'cash/index.html'
 
 
-class NewActivity(CreateView):
-    success_url = reverse_lazy('cash:main')
-    model = Activity
-    template_name = 'cash/new_activity.html'
-    fields = '__all__'
+class ActivityViewSet(viewsets.ModelViewSet):
+    queryset = Activity.objects.all().order_by('-timestamp')
+    serializer_class = ActivitySerializer

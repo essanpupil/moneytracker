@@ -63,7 +63,6 @@
         </a>
         <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
-            <a class="collapse-item" href="{% url 'cash:new' %}">New Transaction</a>
             <a class="collapse-item" href="cards.html">Cards</a>
           </div>
         </div>
@@ -387,13 +386,8 @@
   <!-- Custom scripts for all pages-->
   <script src="{% static 'js/sb-admin-2.js' %}"></script>
 
-  <!-- Page level plugins -->
-  <script src="{% static 'vendor/chart.js/Chart.min.js' %}"></script>
-
-  <!-- Page level custom scripts -->
-  <script src="{% static 'js/demo/chart-area-demo.js' %}"></script>
-  <script src="{% static 'js/demo/chart-pie-demo.js' %}"></script>
-  <script src="{% static 'js/demo/chart-bar-demo.js' %}"></script>
+  {% block page_plugins %}{% endblock %}
+  {% block page_script %}{% endblock %}
 </body>
 
 </html>
