@@ -40,7 +40,7 @@ INSTALLED_APPS = [
 
     'cash.apps.CashConfig',
     'djmoney',
-    'crispy_forms',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -128,4 +128,8 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "moneytracker/static"),
 ]
 
-CRISPY_TEMPLATE_PACK  = 'bootstrap4'
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ]
+}
