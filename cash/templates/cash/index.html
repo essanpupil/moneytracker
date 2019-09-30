@@ -1,4 +1,10 @@
 {% extends 'chunks/base.html' %}
+{% load static %}
+{% block page_style %}
+      <link href="{% static 'vendor/datetimepicker/jquery.datetimepicker.min.css' %}" rel="stylesheet">
+      <link href="{% static 'vendor/jquery-confirm/jquery-confirm.min.css' %}" rel="stylesheet">
+{% endblock %}
+
 {% block page_content %}
 <!-- Page Heading -->
 <h1 class="h3 mb-2 text-gray-800">Cash Management</h1>
@@ -6,12 +12,40 @@
 <!-- Add New Activity -->
 <div class="card shadow mb-4">
     <div class="card-header">
-        <div class="m-0 font-weight-bold text-primary">New Activtity</div>
+        <div class="m-0 font-weight-bold text-primary">New Cash Activtity</div>
     </div>
     <div class="card-body">
         <form method="post" action="/api/activity/">{% csrf_token %}
-            {{ form }}
-            <input type="submit" class="btn btn-primary btn-user btn-block" value="Save Cash Activity">
+            <div class="form-group">
+                <div class="form-row">
+                    <div class="col-md-2">
+                        <div class="form-label-group">
+                            <input type="text" id="id_timestamp" class="form-control" placeholder="Timestamp"
+                                   required="required" autofocus="autofocus">
+                            <label for="id_timestamp">Timestamp</label>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-label-group">
+                            <input type="text" id="id_name" class="form-control" placeholder="Name" required="required">
+                            <label for="id_name">Name</label>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-label-group">
+                            <input type="text" id="id_value" class="form-control" placeholder="Value" required="required">
+                            <label for="id_value">Value</label>
+                        </div>
+                    </div>
+                    <div class="col-md-1">
+                        <div class="form-label-group">
+                            <input type="checkbox" id="id_is_monthly" class="form-control" placeholder="Is Monthly">
+                            <label for="id_is_monthly">Is Monthly</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <input type="submit" class="btn btn-primary btn-user btn-block" value="Save Cash Activity" id="save_activity">
         </form>
     </div>
 </div>
@@ -46,6 +80,11 @@
     </div>
 </div>
 {% endblock %}
+{% block page_plugins %}
+    <script src="{% static 'vendor/datetimepicker/jquery.datetimepicker.full.min.js' %}"></script>
+    <script src="{% static 'vendor/autoNumeric/autoNumeric.js' %}"></script>
+    <script src="{% static 'vendor/jquery-confirm/jquery-confirm.min.js' %}"></script>
+{% endblock %}
 {% block page_script %}
 <script>
 $.ajax({
@@ -58,8 +97,8 @@ $.ajax({
 });
 
 function drawTable(data) {
-    for (var i = 0; i < data.length; i++) {
-        drawRow(data[i]);
+    for (var i = 0; i < data.results.length; i++) {
+        drawRow(data.results[i]);
     }
 }
 
@@ -71,5 +110,34 @@ function drawRow(rowData) {
     row.append($("<td>" + rowData.value + "</td>"));
     row.append($("<td>" + rowData.is_monthly + "</td>"));
 }
+
+$('#id_timestamp').datetimepicker();
+
+$('#id_value').autoNumeric('init');
+
+$('#save_activity').on('submit', function() {
+    $.ajax({
+        url     : '/api/activity/',
+        async   : true,
+        dataType: 'json',
+        type    : 'POST',
+        data    : {
+             timestamp: $('#id_timestamp').val(),
+             name: $('#id_name').val(),
+             value: $('#id_value').val(),
+             is_monthly: $('#id_is_monthly').val(),
+        }
+    }).done(function() {
+        $.alert({
+            title: 'Success!',
+            content: 'New activity saved.',
+        });
+    }).fail(function(xhr, status, error) {
+        $.alert({
+            title: 'Failed!',
+            content: 'Activity not saved.',
+        });
+    });
+});
 </script>
 {% endblock %}

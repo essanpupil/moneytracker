@@ -1,13 +1,12 @@
-from django.views.generic import ListView
+from django.shortcuts import render
 from rest_framework import viewsets
 
 from cash.models import Activity
 from cash.serializers import ActivitySerializer
 
 
-class MainView(ListView):
-    model = Activity
-    template_name = 'cash/index.html'
+def main(request):
+    return render(request, 'cash/index.html')
 
 
 class ActivityViewSet(viewsets.ModelViewSet):
