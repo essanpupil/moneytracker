@@ -155,3 +155,5 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 SITE_ID = 1
 
 REST_USE_JWT = True
+
+LOGIN_URL = '/'
