@@ -11,11 +11,14 @@
     <title>Welcome to MoneyTracker</title>
 </head>
 <body>
-<table class="table table-bordered" id="cashData" width="100%" cellspacing="0">
-    <thead><tr><th>Timestamp</th><th>Name</th><th>Value</th><th>Is Monthly</th></tr></thead>
-    <tfoot><tr><th>Timestamp</th><th>Name</th><th>Value</th><th>Is Monthly</th></tr></tfoot>
-    <tbody></tbody>
-</table>
+<section class="section">
+    <h2>Cash Activity</h2>
+    <table class="table table-bordered" id="cashData" width="100%" cellspacing="0">
+        <thead><tr><th>Timestamp</th><th>Name</th><th>Value</th><th>Is Monthly</th></tr></thead>
+        <tfoot><tr><th>Timestamp</th><th>Name</th><th>Value</th><th>Is Monthly</th></tr></tfoot>
+        <tbody></tbody>
+    </table>
+</section>
 <script>
 var cashData = document.getElementById("cashData");
 
@@ -40,5 +43,6 @@ function drawTable(data) {
         row.insertCell(3).innerHTML = data.results[i].is_monthly;
     }
 }
+
 </script>
 </body>
