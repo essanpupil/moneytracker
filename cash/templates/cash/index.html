@@ -1,143 +1,48 @@
-{% extends 'chunks/base.html' %}
+<!DOCTYPE html>
 {% load static %}
-{% block page_style %}
-      <link href="{% static 'vendor/datetimepicker/jquery.datetimepicker.min.css' %}" rel="stylesheet">
-      <link href="{% static 'vendor/jquery-confirm/jquery-confirm.min.css' %}" rel="stylesheet">
-{% endblock %}
+<html lang="en">
 
-{% block page_content %}
-<!-- Page Heading -->
-<h1 class="h3 mb-2 text-gray-800">Cash Management</h1>
-
-<!-- Add New Activity -->
-<div class="card shadow mb-4">
-    <div class="card-header">
-        <div class="m-0 font-weight-bold text-primary">New Cash Activtity</div>
-    </div>
-    <div class="card-body">
-        <form method="post" action="/api/activity/">{% csrf_token %}
-            <div class="form-group">
-                <div class="form-row">
-                    <div class="col-md-2">
-                        <div class="form-label-group">
-                            <input type="text" id="id_timestamp" class="form-control" placeholder="Timestamp"
-                                   required="required" autofocus="autofocus">
-                            <label for="id_timestamp">Timestamp</label>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-label-group">
-                            <input type="text" id="id_name" class="form-control" placeholder="Name" required="required">
-                            <label for="id_name">Name</label>
-                        </div>
-                    </div>
-                    <div class="col-md-2">
-                        <div class="form-label-group">
-                            <input type="text" id="id_value" class="form-control" placeholder="Value" required="required">
-                            <label for="id_value">Value</label>
-                        </div>
-                    </div>
-                    <div class="col-md-1">
-                        <div class="form-label-group">
-                            <input type="checkbox" id="id_is_monthly" class="form-control" placeholder="Is Monthly">
-                            <label for="id_is_monthly">Is Monthly</label>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <input type="submit" class="btn btn-primary btn-user btn-block" value="Save Cash Activity" id="save_activity">
-        </form>
-    </div>
-</div>
-
-<!-- DataTales Example -->
-<div class="card shadow mb-4">
-    <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">Cash Activity</h6>
-    </div>
-    <div class="card-body">
-        <div class="table-responsive">
-            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                <thead>
-                <tr>
-                    <th>Timestamp</th>
-                    <th>Name</th>
-                    <th>Value</th>
-                    <th>Is Monthly</th>
-                </tr>
-                </thead>
-                <tfoot>
-                <tr>
-                    <th>Timestamp</th>
-                    <th>Name</th>
-                    <th>Value</th>
-                    <th>Is Monthly</th>
-                </tr>
-                </tfoot>
-                <tbody></tbody>
-            </table>
-        </div>
-    </div>
-</div>
-{% endblock %}
-{% block page_plugins %}
-    <script src="{% static 'vendor/datetimepicker/jquery.datetimepicker.full.min.js' %}"></script>
-    <script src="{% static 'vendor/autoNumeric/autoNumeric.js' %}"></script>
-    <script src="{% static 'vendor/jquery-confirm/jquery-confirm.min.js' %}"></script>
-{% endblock %}
-{% block page_script %}
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{% static 'vendor/bulma/bulma.min.css' %}">
+    <script defer src="{% static 'vendor/fontawesome-free/all.js' %}"></script>
+    <script defer src="{% static 'vendor/cookiesjs/cookies.min.js' %}"></script>
+    <title>Welcome to MoneyTracker</title>
+</head>
+<body>
+<section class="section">
+    <h2>Cash Activity</h2>
+    <table class="table table-bordered" id="cashData" width="100%" cellspacing="0">
+        <thead><tr><th>Timestamp</th><th>Name</th><th>Value</th><th>Is Monthly</th></tr></thead>
+        <tfoot><tr><th>Timestamp</th><th>Name</th><th>Value</th><th>Is Monthly</th></tr></tfoot>
+        <tbody></tbody>
+    </table>
+</section>
 <script>
-$.ajax({
-    url: '/api/activity/',
-    type: "get",
-    dataType: "json",
-    success: function(data, textStatus, jqXHR) {
-        drawTable(data);
-    }
-});
+var cashData = document.getElementById("cashData");
+
+var activityRequest = new XMLHttpRequest();
+activityRequest.open('get', '/api/activity/', true);
+activityRequest.onreadystatechange = function () {
+    if (activityRequest.readyState != 4 || activityRequest.status != 200) {
+        cashData.tBodies[0].innerHTML = "<tr><td> - </td><td> - </td><td> - </td><td> - </td></tr>";
+    } else {
+        drawTable(JSON.parse(activityRequest.responseText));
+    };
+};
+activityRequest.send();
 
 function drawTable(data) {
+    cashData.tBodies[0].deleteRow(0);
     for (var i = 0; i < data.results.length; i++) {
-        drawRow(data.results[i]);
+        var row = cashData.tBodies[0].insertRow(i);
+        row.insertCell(0).innerHTML = data.results[i].timestamp;
+        row.insertCell(1).innerHTML = data.results[i].name;
+        row.insertCell(2).innerHTML = data.results[i].value;
+        row.insertCell(3).innerHTML = data.results[i].is_monthly;
     }
 }
 
-function drawRow(rowData) {
-    var row = $("<tr />")
-    $("#dataTable").append(row);
-    row.append($("<td>" + rowData.timestamp + "</td>"));
-    row.append($("<td>" + rowData.name + "</td>"));
-    row.append($("<td>" + rowData.value + "</td>"));
-    row.append($("<td>" + rowData.is_monthly + "</td>"));
-}
-
-$('#id_timestamp').datetimepicker();
-
-$('#id_value').autoNumeric('init');
-
-$('#save_activity').on('submit', function() {
-    $.ajax({
-        url     : '/api/activity/',
-        async   : true,
-        dataType: 'json',
-        type    : 'POST',
-        data    : {
-             timestamp: $('#id_timestamp').val(),
-             name: $('#id_name').val(),
-             value: $('#id_value').val(),
-             is_monthly: $('#id_is_monthly').val(),
-        }
-    }).done(function() {
-        $.alert({
-            title: 'Success!',
-            content: 'New activity saved.',
-        });
-    }).fail(function(xhr, status, error) {
-        $.alert({
-            title: 'Failed!',
-            content: 'Activity not saved.',
-        });
-    });
-});
 </script>
-{% endblock %}
+</body>
