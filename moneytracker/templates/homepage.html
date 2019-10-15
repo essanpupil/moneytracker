@@ -46,7 +46,7 @@
             if (r.readyState != 4 || r.status != 200) {
                 alert("Login Failed: " + r.responseText);
             } else {
-                docCookies.setItem('token', r.responseText.token);
+                docCookies.setItem('token', JSON.parse(r.responseText).token);
                 window.location = {% url 'cash:main' %};
             };
         };
