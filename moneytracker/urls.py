@@ -6,7 +6,7 @@ from cash.views import ActivityViewSet
 from moneytracker.views import homepage
 
 router = routers.DefaultRouter()
-router.register(r'activity', ActivityViewSet)
+router.register(r'cash/activity', ActivityViewSet)
 
 urlpatterns = [
     path('api/', include(router.urls)),

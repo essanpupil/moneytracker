@@ -23,7 +23,7 @@
 var cashData = document.getElementById("cashData");
 
 var activityRequest = new XMLHttpRequest();
-activityRequest.open('get', '/api/activity/', true);
+activityRequest.open('get', '/api/cash/activity/', true);
 activityRequest.onreadystatechange = function () {
     if (activityRequest.readyState != 4 || activityRequest.status != 200) {
         cashData.tBodies[0].innerHTML = "<tr><td> - </td><td> - </td><td> - </td><td> - </td></tr>";
