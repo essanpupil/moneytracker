@@ -11,8 +11,8 @@ router.register(r'activity', ActivityViewSet)
 urlpatterns = [
     path('api/', include(router.urls)),
     path('api-auth/', include('rest_auth.urls')),
-    path('api-auth/registration/', include('rest_auth.registration.urls')),
     path('admin/', admin.site.urls),
     path('cash/', include('cash.urls')),
+
     path('', homepage, name='homepage'),
 ]
