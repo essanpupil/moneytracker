@@ -11,51 +11,54 @@
     <title>Welcome to MoneyTracker</title>
   </head>
   <body>
-    <section class="hero is-small is-primary">
-      <div class="hero-body">
-        <div class="container">
-          <div class="columns">
-            <div class="column is-8-desktop is-offset-2-desktop">
-              <h1 class="title is-2 is-spaced">
-                Money Tracker
-              </h1>
-              <h2 class="subtitle is-4">Know where your money go.
-              </h2>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-    <section class="section">
+  <section class="hero is-primary is-small-with-navbar">
+    <div class="hero-body">
       <div class="container">
         <div class="columns">
           <div class="column is-8-desktop is-offset-2-desktop">
-            <div class="content">
-              <h3>Login</h3>
-              <form id="loginForm" method="post">{% csrf_token %}
+            <h1 class="title is-2 is-spaced">
+              Money Tracker
+            </h1>
+            <h2 class="subtitle is-4">Know where your money go.</h2>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="section">
+    <div class="container">
+      <div class="columns">
+        <div class="column is-8-desktop is-offset-2-desktop">
+          <div class="content">
+            <h2>Login</h2>
+            <form id="loginForm" method="post">
+              <div class="field">
                 <input id="uname" class="input is-rounded is-large" type="text" placeholder="Username">
+              </div>
+              <div class="field">
                 <input id="passwd" class="input is-rounded is-large" type="password" placeholder="Password">
-                <button id="loginButton" class="button is-primary">Login</button>
-              </form>
-            </div>
+              </div>
+              <button id="loginButton" class="button is-primary">Login</button>
+            </form>
           </div>
         </div>
       </div>
-    </section>
-    <footer class="footer has-text-centered">
-      <div class="container">
-        <div class="columns">
-          <div class="column is-8-desktop is-offset-2-desktop">
-            <p>
-              <strong class="has-text-weight-semibold">
-                MoneyTracker &copy; 2019
-              </strong>
-            </p>
-          </div>
+    </div>
+  </section>
+  <footer class="footer has-text-centered">
+    <div class="container">
+      <div class="columns">
+        <div class="column is-8-desktop is-offset-2-desktop">
+          <p>
+            <strong class="has-text-weight-semibold">
+              MoneyTracker &copy; 2019
+            </strong>
+          </p>
         </div>
       </div>
-    </footer>
-    <script>
+    </div>
+  </footer>
+  <script>
     document.getElementById("loginButton").addEventListener("click", function(event) {
         event.preventDefault();
         var uname = document.getElementById("uname").value;
@@ -73,6 +76,7 @@
         };
         r.send("username=" + uname + "&password=" + passwd);
     });
-    </script>
+
+  </script>
   </body>
 </html>
