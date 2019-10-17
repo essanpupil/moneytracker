@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'django.contrib.sites',
 
     'cash.apps.CashConfig',
-    'djmoney',
+    'planning.apps.PlanningConfig',
+
     'rest_framework',
     'rest_framework.authtoken',
     'rest_auth',
