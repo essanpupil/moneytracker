@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="{% static 'vendor/bulma/bulma.min.css' %}">
     <script defer src="{% static 'vendor/fontawesome-free/all.js' %}"></script>
     <script defer src="{% static 'vendor/cookiesjs/cookies.min.js' %}"></script>
-    <title>Welcome to MoneyTracker</title>
+    <title>{% block page_title %}MoneyTracker Dashboard{% endblock %}</title>
 </head>
 <body class="has-navbar-fixed-top">
 <nav class="navbar is-info is-fixed-top" role="navigation" aria-label="main navigation">
@@ -26,7 +26,7 @@
         <div id="mainMenu" class="navbar-menu">
             <div class="navbar-start">
                 <a class="navbar-item" href="{% url 'cash:main' %}">Cash</a>
-                <a class="navbar-item">Planning</a>
+                <a class="navbar-item" href="{% url 'planning:main' %}">Planning</a>
             </div>
 
             <div class="navbar-end">
@@ -45,7 +45,7 @@
         <div class="columns">
             <div class="column is-8-desktop is-offset-2-desktop">
                 <div class="content">
-
+                    {% block content %}{% endblock %}
                 </div>
             </div>
         </div>
@@ -61,6 +61,7 @@
     </div>
 </footer>
 <script>
+{% block page_script %}
     document.addEventListener('DOMContentLoaded', () => {
 
   // Get all "navbar-burger" elements
@@ -87,7 +88,7 @@
 
 });
 
-
+{% endblock %}
 </script>
 </body>
 </html>
