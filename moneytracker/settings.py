@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'cash.apps.CashConfig',
     'planning.apps.PlanningConfig',
 
+    'djmoney',
     'rest_framework',
     'rest_framework.authtoken',
     'rest_auth',

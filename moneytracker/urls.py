@@ -3,7 +3,7 @@ from django.urls import path, include
 from rest_framework import routers
 
 from cash.views import ActivityViewSet
-from moneytracker.views import homepage
+from moneytracker.views import homepage, dashboard
 
 router = routers.DefaultRouter()
 router.register(r'cash/activity', ActivityViewSet)
@@ -14,5 +14,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('cash/', include('cash.urls')),
 
+    path('dashboard/', dashboard, name='dashboard'),
     path('', homepage, name='homepage'),
 ]
