@@ -11,7 +11,7 @@
     <title>Welcome to MoneyTracker</title>
   </head>
   <body>
-  <section class="hero is-primary is-small-with-navbar">
+  <section class="hero is-primary">
     <div class="hero-body">
       <div class="container">
         <div class="columns">
@@ -31,7 +31,7 @@
         <div class="column is-8-desktop is-offset-2-desktop">
           <div class="content">
             <h2>Login</h2>
-            <form id="loginForm" method="post">
+            <form id="loginForm" method="post">{% csrf_token %}
               <div class="field">
                 <input id="uname" class="input is-rounded is-large" type="text" placeholder="Username">
               </div>
@@ -59,7 +59,7 @@
     </div>
   </footer>
   <script>
-    document.getElementById("loginButton").addEventListener("click", function(event) {
+    document.getElementById("loginForm").addEventListener("submit", function(event) {
         event.preventDefault();
         var uname = document.getElementById("uname").value;
         var passwd = document.getElementById("passwd").value;
@@ -71,7 +71,7 @@
                 alert("Login Failed: " + r.responseText);
             } else {
                 docCookies.setItem('token', JSON.parse(r.responseText).token);
-                window.location = {% url 'cash:main' %};
+                window.location = {% url 'dashboard' %};
             };
         };
         r.send("username=" + uname + "&password=" + passwd);

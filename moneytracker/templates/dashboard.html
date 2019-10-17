@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{% static 'vendor/bulma/bulma.min.css' %}">
+    <script defer src="{% static 'vendor/fontawesome-free/all.js' %}"></script>
+    <script defer src="{% static 'vendor/cookiesjs/cookies.min.js' %}"></script>
+    <title>{% block page_title %}MoneyTracker Dashboard{% endblock %}</title>
+</head>
+<body class="has-navbar-fixed-top">
+<nav class="navbar is-info is-fixed-top" role="navigation" aria-label="main navigation">
+    <div class="container">
+        <div class="navbar-brand">
+            <a class="navbar-item" href="{% url 'dashboard' %}"><strong>MoneyTracker</strong></a>
+            <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
+               data-target="mainMenu">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </a>
+        </div>
+
+        <div id="mainMenu" class="navbar-menu">
+            <div class="navbar-start">
+                <a class="navbar-item" href="{% url 'cash:main' %}">Cash</a>
+                <a class="navbar-item" href="{% url 'planning:main' %}">Planning</a>
+            </div>
+
+            <div class="navbar-end">
+                <div class="navbar-item">
+                    <div class="buttons">
+                        <a class="button is-primary"><strong>{{ request.user }}</strong></a>
+                        <a class="button is-light">Log out</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+<section class="section">
+    <div class="container">
+        <div class="columns">
+            <div class="column is-8-desktop is-offset-2-desktop">
+                <div class="content">
+                    {% block content %}{% endblock %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<footer class="footer has-text-centered">
+    <div class="container">
+        <div class="columns">
+            <div class="column is-8-desktop is-offset-2-desktop">
+                <p><strong class="has-text-weight-semibold">MoneyTracker &copy; 2019</strong></p>
+            </div>
+        </div>
+    </div>
+</footer>
+<script>
+{% block page_script %}
+    document.addEventListener('DOMContentLoaded', () => {
+
+  // Get all "navbar-burger" elements
+  const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+
+  // Check if there are any navbar burgers
+  if ($navbarBurgers.length > 0) {
+
+    // Add a click event on each of them
+    $navbarBurgers.forEach( el => {
+      el.addEventListener('click', () => {
+
+        // Get the target from the "data-target" attribute
+        const target = el.dataset.target;
+        const $target = document.getElementById(target);
+
+        // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
+        el.classList.toggle('is-active');
+        $target.classList.toggle('is-active');
+
+      });
+    });
+  }
+
+});
+
+{% endblock %}
+</script>
+</body>
+</html>
